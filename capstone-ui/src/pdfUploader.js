@@ -110,7 +110,8 @@ function PdfUploader({
               backgroundColor: "#e8f4fd", 
               borderRadius: "8px", 
               borderLeft: "4px solid #007bff",
-              lineHeight: "1.6"
+              lineHeight: "1.6",
+              color: "#1e293b"
             }}>
               {summaries.abstract}
             </div>
@@ -122,7 +123,8 @@ function PdfUploader({
               backgroundColor: "#e8f8f5", 
               borderRadius: "8px", 
               borderLeft: "4px solid #28a745",
-              lineHeight: "1.6"
+              lineHeight: "1.6",
+              color: "#1e293b"
             }}>
               {summaries.introduction}
             </div>
@@ -134,7 +136,8 @@ function PdfUploader({
               backgroundColor: "#fef9e7", 
               borderRadius: "8px", 
               borderLeft: "4px solid #ffc107",
-              lineHeight: "1.6"
+              lineHeight: "1.6",
+              color: "#1e293b"
             }}>
               {summaries.main_body}
             </div>

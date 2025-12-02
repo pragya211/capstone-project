@@ -127,19 +127,19 @@ function AdvancedPdfProcessor({
         <h3>Document Overview</h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "15px", marginBottom: "20px" }}>
           <div style={{ padding: "15px", border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9" }}>
-            <h4>Pages</h4>
+            <h4 style={{ color: "#1e293b", margin: "0 0 10px 0" }}>Pages</h4>
             <p style={{ fontSize: "24px", margin: "0", color: "#2c3e50" }}>{metadata.total_pages}</p>
           </div>
           <div style={{ padding: "15px", border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#e8f4fd" }}>
-            <h4>Citations</h4>
+            <h4 style={{ color: "#1e293b", margin: "0 0 10px 0" }}>Citations</h4>
             <p style={{ fontSize: "24px", margin: "0", color: "#2980b9" }}>{metadata.total_citations}</p>
           </div>
           <div style={{ padding: "15px", border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#e8f8f5" }}>
-            <h4>Figures</h4>
+            <h4 style={{ color: "#1e293b", margin: "0 0 10px 0" }}>Figures</h4>
             <p style={{ fontSize: "24px", margin: "0", color: "#27ae60" }}>{metadata.total_figures}</p>
           </div>
           <div style={{ padding: "15px", border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#fef9e7" }}>
-            <h4>Tables</h4>
+            <h4 style={{ color: "#1e293b", margin: "0 0 10px 0" }}>Tables</h4>
             <p style={{ fontSize: "24px", margin: "0", color: "#f39c12" }}>{metadata.total_tables}</p>
           </div>
         </div>
@@ -148,7 +148,7 @@ function AdvancedPdfProcessor({
         <div style={{ marginBottom: "20px" }}>
           <div style={{ marginBottom: "15px" }}>
             <h4>Abstract</h4>
-            <div style={{ padding: "10px", backgroundColor: "#f8f9fa", borderRadius: "5px", borderLeft: "4px solid #007bff" }}>
+            <div style={{ padding: "10px", backgroundColor: "#f8f9fa", borderRadius: "5px", borderLeft: "4px solid #007bff", color: "#1e293b" }}>
               {sections.abstract || "No abstract found"}
             </div>
             {sections.abstract && file && (
@@ -174,7 +174,7 @@ function AdvancedPdfProcessor({
           </div>
           <div style={{ marginBottom: "15px" }}>
             <h4>Introduction</h4>
-            <div style={{ padding: "10px", backgroundColor: "#f8f9fa", borderRadius: "5px", borderLeft: "4px solid #28a745" }}>
+            <div style={{ padding: "10px", backgroundColor: "#f8f9fa", borderRadius: "5px", borderLeft: "4px solid #28a745", color: "#1e293b" }}>
               {sections.introduction || "No introduction found"}
             </div>
             {sections.introduction && file && (
@@ -200,7 +200,7 @@ function AdvancedPdfProcessor({
           </div>
           <div style={{ marginBottom: "15px" }}>
             <h4>Main Body</h4>
-            <div style={{ padding: "10px", backgroundColor: "#f8f9fa", borderRadius: "5px", borderLeft: "4px solid #ffc107" }}>
+            <div style={{ padding: "10px", backgroundColor: "#f8f9fa", borderRadius: "5px", borderLeft: "4px solid #ffc107", color: "#1e293b" }}>
               {sections.main_body ? sections.main_body.substring(0, 500) + "..." : "No main body found"}
             </div>
             {sections.main_body && file && (
@@ -243,19 +243,20 @@ function AdvancedPdfProcessor({
               marginBottom: "10px", 
               border: "1px solid #ddd", 
               borderRadius: "5px",
-              backgroundColor: "#f8f9fa"
+              backgroundColor: "#f8f9fa",
+              color: "#1e293b"
             }}>
-              <div style={{ fontWeight: "bold", color: "#495057" }}>
+              <div style={{ fontWeight: "bold", color: "#1e293b", marginBottom: "8px" }}>
                 {citation.citation_type.toUpperCase()}
               </div>
-              <div style={{ marginTop: "5px" }}>
-                <strong>Text:</strong> {citation.text}
+              <div style={{ marginTop: "5px", color: "#1e293b" }}>
+                <strong style={{ color: "#1e293b" }}>Text:</strong> {citation.text}
               </div>
               {citation.authors && citation.authors.length > 0 && (
-                <div><strong>Authors:</strong> {citation.authors.join(", ")}</div>
+                <div style={{ color: "#1e293b" }}><strong style={{ color: "#1e293b" }}>Authors:</strong> {citation.authors.join(", ")}</div>
               )}
               {citation.year && (
-                <div><strong>Year:</strong> {citation.year}</div>
+                <div style={{ color: "#1e293b" }}><strong style={{ color: "#1e293b" }}>Year:</strong> {citation.year}</div>
               )}
               {citation.citation_type === "numbered" && citation.reference_numbers?.length > 0 && (
                 <div style={{ marginTop: "8px" }}>
@@ -264,10 +265,10 @@ function AdvancedPdfProcessor({
                   </div>
                   <ul style={{ paddingLeft: "18px", marginTop: "4px", marginBottom: "0" }}>
                     {citation.reference_numbers.map((num, idx) => (
-                      <li key={idx} style={{ marginBottom: "4px" }}>
-                        <strong>[{num}]</strong>{" "}
+                      <li key={idx} style={{ marginBottom: "4px", color: "#1e293b" }}>
+                        <strong style={{ color: "#1e293b" }}>[{num}]</strong>{" "}
                         {citation.resolved_references?.[idx] || (
-                          <span style={{ color: "#6c757d" }}>
+                          <span style={{ color: "#1e293b" }}>
                             Reference {num} (details not captured)
                           </span>
                         )}
@@ -369,7 +370,8 @@ function AdvancedPdfProcessor({
               backgroundColor: "#e9ecef",
               borderRadius: "20px",
               fontSize: "14px",
-              border: "1px solid #dee2e6"
+              border: "1px solid #dee2e6",
+              color: "#1e293b"
             }}>
               {keyword}
             </span>
@@ -419,7 +421,8 @@ function AdvancedPdfProcessor({
               backgroundColor: "#e8f4fd", 
               borderRadius: "8px", 
               borderLeft: "4px solid #007bff",
-              lineHeight: "1.6"
+              lineHeight: "1.6",
+              color: "#1e293b"
             }}>
               {summaries.abstract}
             </div>
@@ -431,7 +434,8 @@ function AdvancedPdfProcessor({
               backgroundColor: "#e8f8f5", 
               borderRadius: "8px", 
               borderLeft: "4px solid #28a745",
-              lineHeight: "1.6"
+              lineHeight: "1.6",
+              color: "#1e293b"
             }}>
               {summaries.introduction}
             </div>
@@ -443,7 +447,8 @@ function AdvancedPdfProcessor({
               backgroundColor: "#fef9e7", 
               borderRadius: "8px", 
               borderLeft: "4px solid #ffc107",
-              lineHeight: "1.6"
+              lineHeight: "1.6",
+              color: "#1e293b"
             }}>
               {summaries.main_body}
             </div>

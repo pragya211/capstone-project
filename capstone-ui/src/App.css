@@ -1,4 +1,7 @@
 :root {
+  --color-heading: #f8fafc; /* bright - for dark backgrounds */
+  --color-body: #1e293b;    /* darker - for visibility on light backgrounds */
+  --color-body-text: #1e293b; /* defined for body text - dark for light backgrounds */
   --color-bg-base: #0f172a;
   --color-bg-soft: #111c35;
   --color-surface: rgba(15, 23, 42, 0.65);
@@ -6,8 +9,8 @@
   --color-card: rgba(15, 23, 42, 0.85);
   --color-border: rgba(148, 163, 184, 0.2);
   --color-border-strong: rgba(148, 163, 184, 0.45);
-  --color-text: #e2e8f0;
-  --color-text-muted: #dbeafe;
+  --color-text: #d3daea; /* lighter text for dark backgrounds */
+  --color-text-muted: #dfe6f3;
   --color-text-subtle: rgba(226, 232, 240, 0.85);
   --primary: #6366f1;
   --primary-accent: #8b5cf6;
@@ -24,7 +27,53 @@
   font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
+/* Headings - light color for dark backgrounds */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-heading);
+  margin: 0;
+}
+
+/* Body element - light text for dark background */
 body {
+  color: var(--color-text);
+}
+
+/* Body text - dark color for visibility on light backgrounds */
+/* This ensures text is visible when components have light backgrounds */
+/* Default: dark text for light backgrounds */
+p, li, span {
+  color: var(--color-body-text);
+}
+
+/* Override: For dark background containers, use lighter text */
+.app-shell,
+.app-shell *:not([style*="color"]):not([style*="background"]),
+.app-hero,
+.app-hero *:not([style*="color"]):not([style*="background"]),
+.auth-section,
+.auth-section *:not([style*="color"]):not([style*="background"]),
+.auth-card,
+.auth-card *:not([style*="color"]):not([style*="background"]),
+.tab-panels,
+.tab-panels *:not([style*="color"]):not([style*="background"]) {
+  color: var(--color-text);
+}
+
+.app-shell p,
+.app-shell li,
+.app-shell span,
+.app-hero p,
+.app-hero li,
+.app-hero span,
+.auth-section p,
+.auth-section li,
+.auth-section span,
+.auth-card p,
+.auth-card li,
+.auth-card span,
+.tab-panels p,
+.tab-panels li,
+.tab-panels span {
   color: var(--color-text);
 }
 
