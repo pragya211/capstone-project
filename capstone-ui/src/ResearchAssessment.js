@@ -340,36 +340,13 @@ const ResearchAssessment = ({
               </h3>
               <ul style={{ paddingLeft: '20px' }}>
                 {assessment.strengths.map((strength, index) => {
-                  // Remove bullet points, double quotes, and numbering patterns
-                  // Pattern: "• - Strength 1": "actual text" or • - Strength 1: "actual text"
-                  let cleanedStrength = strength;
-                  
-                  // Try to match the pattern and extract just the content
-                  // Match: "• - Strength X": "content" or any variation
-                  const patternMatch = cleanedStrength.match(/["']?\s*[•\u2022\-\s]+\s*["']?\s*Strength\s+\d+\s*["']?\s*:\s*["']?\s*(.+)/i);
-                  if (patternMatch && patternMatch[1]) {
-                    cleanedStrength = patternMatch[1];
-                  } else {
-                    // Fallback: remove patterns step by step
-                    cleanedStrength = cleanedStrength
-                      .replace(/^["']?\s*[•\u2022\-\s]+\s*["']?\s*Strength\s+\d+\s*["']?\s*:\s*["']?\s*/gi, '')
-                      .replace(/^["']?\s*[•\u2022\-\s]+\s*["']?/g, '')
-                      .replace(/^["']?\s*Strength\s+\d+\s*["']?\s*:\s*["']?\s*/gi, '')
-                      .replace(/^\d+\.\s*/, '') // Remove "1. " at start
-                      .replace(/^\d+\)\s*/, '') // Remove "1) " at start
-                      .replace(/^\(\d+\)\s*/, ''); // Remove "(1) " at start
-                  }
-                  
-                  // Remove any remaining numbering patterns anywhere in the text
-                  cleanedStrength = cleanedStrength
-                    .replace(/\s*Strength\s+\d+\s*:\s*/gi, '') // Remove "Strength X:" anywhere
-                    .replace(/^\d+\.\s*/, '') // Remove "1. " at start
-                    .replace(/^\d+\)\s*/, '') // Remove "1) " at start
-                    .replace(/^\(\d+\)\s*/, '') // Remove "(1) " at start
-                    .replace(/^["']+/, '') // Remove surrounding quotes at start
-                    .replace(/["']+$/, '') // Remove surrounding quotes at end
+                  // Remove all variations: "- Strength 1": "sentence", "Strength 1": "sentence", etc.
+                  let cleanedStrength = strength
+                    .replace(/^["']?\s*[-•]\s*["']?\s*Strength\s+\d+\s*["']?\s*:\s*["']?\s*/i, '') // Remove "- Strength 1": " prefix
+                    .replace(/^["']?\s*Strength\s+\d+\s*["']?\s*:\s*["']?\s*/i, '') // Remove "Strength 1": " prefix
+                    .replace(/^["']+/, '') // Remove leading quotes
+                    .replace(/["']+$/, '') // Remove trailing quotes
                     .trim();
-                  
                   return (
                     <li key={index} style={{ marginBottom: '8px', color: 'var(--color-text)' }}>
                       {cleanedStrength}
@@ -387,11 +364,19 @@ const ResearchAssessment = ({
                 ❌ Weaknesses
               </h3>
               <ul style={{ paddingLeft: '20px' }}>
-                {assessment.weaknesses.map((weakness, index) => (
-                  <li key={index} style={{ marginBottom: '8px', color: 'var(--color-text)' }}>
-                    {weakness}
-                  </li>
-                ))}
+                {assessment.weaknesses.map((weakness, index) => {
+                  // Remove all variations: "- Weakness 1": "sentence", "Weakness 1": "sentence", etc.
+                  let cleanedWeakness = weakness
+                    .replace(/^["']?\s*[-•]\s*["']?\s*Weakness\s+\d+\s*["']?\s*:\s*["']?\s*/i, '') // Remove "- Weakness 1": " prefix
+                    .replace(/^["']?\s*Weakness\s+\d+\s*["']?\s*:\s*["']?\s*/i, '') // Remove "Weakness 1": " prefix
+                    .replace(/["']/g, '') // Remove ALL quotes (single and double) from entire text
+                    .trim();
+                  return (
+                    <li key={index} style={{ marginBottom: '8px', color: 'var(--color-text)' }}>
+                      {cleanedWeakness}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           )}
@@ -405,18 +390,28 @@ const ResearchAssessment = ({
               💡 Recommendations
             </h3>
             <ul style={{ paddingLeft: '20px', listStyleType: 'none' }}>
-              {assessment.recommendations.map((recommendation, index) => (
-                <li key={index} style={{ 
-                  marginBottom: '10px', 
-                  color: '#495057',
-                  padding: '10px',
-                  backgroundColor: '#f8f9fa',
-                  borderRadius: '5px',
-                  borderLeft: '4px solid #007bff'
-                }}>
-                  {recommendation}
-                </li>
-              ))}
+              {assessment.recommendations.map((recommendation, index) => {
+                // Remove all variations: "Address weakness: "- Weakness 1": "sentence", "- Recommendation 1": "sentence", etc.
+                let cleanedRecommendation = recommendation
+                  .replace(/^Address\s+weakness\s*:\s*/i, '') // Remove "Address weakness: " prefix
+                  .replace(/^["']?\s*[-•]\s*["']?\s*Weakness\s+\d+\s*["']?\s*:\s*["']?\s*/i, '') // Remove "- Weakness 1": " prefix
+                  .replace(/^["']?\s*[-•]\s*["']?\s*Recommendation\s+\d+\s*["']?\s*:\s*["']?\s*/i, '') // Remove "- Recommendation 1": " prefix
+                  .replace(/^["']?\s*Recommendation\s+\d+\s*["']?\s*:\s*["']?\s*/i, '') // Remove "Recommendation 1": " prefix
+                  .replace(/["']/g, '') // Remove ALL quotes (single and double) from entire text
+                  .trim();
+                return (
+                  <li key={index} style={{ 
+                    marginBottom: '10px', 
+                    color: '#495057',
+                    padding: '10px',
+                    backgroundColor: '#f8f9fa',
+                    borderRadius: '5px',
+                    borderLeft: '4px solid #007bff'
+                  }}>
+                    {cleanedRecommendation}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         )}
@@ -438,16 +433,23 @@ const ResearchAssessment = ({
                 backgroundColor: '#ffffff'
               }}>
                 <h4 style={{ color: '#007bff', margin: '0 0 10px 0' }}>🔬 Methodology</h4>
-                <p style={{ margin: '0', color: '#495057' }}>
-                  Score: <strong>{assessment.methodology_analysis.score ?? 'N/A'}/100</strong>
+                <p style={{ margin: '0', color: '#1e293b' }}>
+                  Score: <strong style={{ color: '#1e293b' }}>{assessment.methodology_analysis.score ?? 'N/A'}/100</strong>
                 </p>
                 {assessment.methodology_analysis.suggestions && (
                   <div style={{ marginTop: '10px' }}>
                     <strong style={{ color: '#212529' }}>Suggestions:</strong>
                     <ul style={{ margin: '5px 0 0 20px', fontSize: '14px' }}>
-                      {assessment.methodology_analysis.suggestions.slice(0, 2).map((suggestion, index) => (
-                        <li key={index} style={{ color: '#212529' }}>{suggestion}</li>
-                      ))}
+                      {assessment.methodology_analysis.suggestions.slice(0, 2).map((suggestion, index) => {
+                        // Remove quotes and prefixes
+                        let cleanedSuggestion = suggestion
+                          .replace(/^["']+/, '')
+                          .replace(/["']+$/, '')
+                          .trim();
+                        return (
+                          <li key={index} style={{ color: '#212529' }}>{cleanedSuggestion}</li>
+                        );
+                      })}
                     </ul>
                   </div>
                 )}
@@ -463,16 +465,23 @@ const ResearchAssessment = ({
                 backgroundColor: '#ffffff'
               }}>
                 <h4 style={{ color: '#007bff', margin: '0 0 10px 0' }}>📚 Literature Review</h4>
-                <p style={{ margin: '0', color: '#495057' }}>
-                  Score: <strong>{assessment.literature_review_analysis.score ?? 'N/A'}/100</strong>
+                <p style={{ margin: '0', color: '#1e293b' }}>
+                  Score: <strong style={{ color: '#1e293b' }}>{assessment.literature_review_analysis.score ?? 'N/A'}/100</strong>
                 </p>
                 {assessment.literature_review_analysis.suggestions && (
                   <div style={{ marginTop: '10px' }}>
                     <strong style={{ color: '#212529' }}>Suggestions:</strong>
                     <ul style={{ margin: '5px 0 0 20px', fontSize: '14px' }}>
-                      {assessment.literature_review_analysis.suggestions.slice(0, 2).map((suggestion, index) => (
-                        <li key={index} style={{ color: '#212529' }}>{suggestion}</li>
-                      ))}
+                      {assessment.literature_review_analysis.suggestions.slice(0, 2).map((suggestion, index) => {
+                        // Remove quotes and prefixes
+                        let cleanedSuggestion = suggestion
+                          .replace(/^["']+/, '')
+                          .replace(/["']+$/, '')
+                          .trim();
+                        return (
+                          <li key={index} style={{ color: '#212529' }}>{cleanedSuggestion}</li>
+                        );
+                      })}
                     </ul>
                   </div>
                 )}
@@ -488,16 +497,23 @@ const ResearchAssessment = ({
                 backgroundColor: '#ffffff'
               }}>
                 <h4 style={{ color: '#007bff', margin: '0 0 10px 0' }}>📈 Results</h4>
-                <p style={{ margin: '0', color: '#495057' }}>
-                  Score: <strong>{assessment.results_analysis.score ?? 'N/A'}/100</strong>
+                <p style={{ margin: '0', color: '#1e293b' }}>
+                  Score: <strong style={{ color: '#1e293b' }}>{assessment.results_analysis.score ?? 'N/A'}/100</strong>
                 </p>
                 {assessment.results_analysis.suggestions && (
                   <div style={{ marginTop: '10px' }}>
                     <strong style={{ color: '#212529' }}>Suggestions:</strong>
                     <ul style={{ margin: '5px 0 0 20px', fontSize: '14px' }}>
-                      {assessment.results_analysis.suggestions.slice(0, 2).map((suggestion, index) => (
-                        <li key={index} style={{ color: '#212529' }}>{suggestion}</li>
-                      ))}
+                      {assessment.results_analysis.suggestions.slice(0, 2).map((suggestion, index) => {
+                        // Remove quotes and prefixes
+                        let cleanedSuggestion = suggestion
+                          .replace(/^["']+/, '')
+                          .replace(/["']+$/, '')
+                          .trim();
+                        return (
+                          <li key={index} style={{ color: '#212529' }}>{cleanedSuggestion}</li>
+                        );
+                      })}
                     </ul>
                   </div>
                 )}
@@ -513,16 +529,23 @@ const ResearchAssessment = ({
                 backgroundColor: '#ffffff'
               }}>
                 <h4 style={{ color: '#007bff', margin: '0 0 10px 0' }}>💭 Discussion</h4>
-                <p style={{ margin: '0', color: '#495057' }}>
-                  Score: <strong>{assessment.discussion_analysis.score ?? 'N/A'}/100</strong>
+                <p style={{ margin: '0', color: '#1e293b' }}>
+                  Score: <strong style={{ color: '#1e293b' }}>{assessment.discussion_analysis.score ?? 'N/A'}/100</strong>
                 </p>
                 {assessment.discussion_analysis.suggestions && (
                   <div style={{ marginTop: '10px' }}>
                     <strong style={{ color: '#212529' }}>Suggestions:</strong>
                     <ul style={{ margin: '5px 0 0 20px', fontSize: '14px' }}>
-                      {assessment.discussion_analysis.suggestions.slice(0, 2).map((suggestion, index) => (
-                        <li key={index} style={{ color: '#212529' }}>{suggestion}</li>
-                      ))}
+                      {assessment.discussion_analysis.suggestions.slice(0, 2).map((suggestion, index) => {
+                        // Remove quotes and prefixes
+                        let cleanedSuggestion = suggestion
+                          .replace(/^["']+/, '')
+                          .replace(/["']+$/, '')
+                          .trim();
+                        return (
+                          <li key={index} style={{ color: '#212529' }}>{cleanedSuggestion}</li>
+                        );
+                      })}
                     </ul>
                   </div>
                 )}
@@ -649,10 +672,12 @@ const ResearchAssessment = ({
               fontSize: "15px",
               width: "100%",
               marginBottom: "16px",
+              backgroundColor: "#ffffff",
+              color: "#1e293b",
             }}
           >
-            <option value="comprehensive">Comprehensive Assessment</option>
-            <option value="quick">Quick Analysis</option>
+            <option value="comprehensive" style={{ color: "#1e293b" }}>Comprehensive Assessment</option>
+            <option value="quick" style={{ color: "#1e293b" }}>Quick Analysis</option>
           </select>
 
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
