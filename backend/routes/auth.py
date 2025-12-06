@@ -4,6 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from passlib.context import CryptContext
 
 from backend.database import get_db
 from backend.models.user import User
@@ -96,3 +97,18 @@ def login(
 def read_current_user(current_user: Annotated[User, Depends(get_current_user)]):
     return current_user
 
+# Password hashing
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+MAX_BCRYPT_LENGTH = 72  # bcrypt limit
+
+def get_password_hash(password: str) -> str:
+    """
+    Hash a password using bcrypt, truncating to 72 bytes.
+    """
+    return pwd_context.hash(password[:MAX_BCRYPT_LENGTH])
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """
+    Verify a password against a hash, truncating to 72 bytes.
+    """
+    return pwd_context.verify(plain_password[:MAX_BCRYPT_LENGTH], hashed_password)
