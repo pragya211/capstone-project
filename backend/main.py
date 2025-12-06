@@ -13,7 +13,8 @@ app = FastAPI(title="Capstone Project API")
 # CORS Configuration - use environment variable in production
 allowed_origins = os.getenv(
     "ALLOWED_ORIGINS",
-    "http://localhost:3000,http://127.0.0.1:3000"
+    "http://localhost:3000,http://127.0.0.1:3000",
+    "https://capstone-project-8dg9.vercel.app"
 ).split(",")
 
 # In development, allow all origins; in production, use specific origins
