@@ -11,30 +11,29 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Capstone Project API")
 
 # CORS Configuration - use environment variable in production
-allowed_origins = os.getenv(
-    "ALLOWED_ORIGINS",
-    "http://localhost:3000,http://127.0.0.1:3000",
+allowed_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
     "https://capstone-project-8dg9.vercel.app"
-).split(",")
+]
+
 
 # In development, allow all origins; in production, use specific origins
-if os.getenv("ENVIRONMENT") == "production":
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=allowed_origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-else:
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
     # Development: allow all origins
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    # app.add_middleware(
+    #     CORSMiddleware,
+    #     allow_origins=["*"],
+    #     allow_credentials=True,
+    #     allow_methods=["*"],
+    #     allow_headers=["*"],
+    # )
 
 # Register routes
 app.include_router(upload.router, prefix="/extract", tags=["Extraction"])
