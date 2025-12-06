@@ -145,7 +145,7 @@ const ResearchAssessment = ({
             📄 {assessment.paper_title || 'Research Paper Assessment'}
           </h2>
           <p style={{ margin: '0', color: '#6c757d' }}>
-            <strong>Research Field:</strong> {assessment.research_field || 'Unknown'}
+            <strong style={{ color: '#495057' }}>Research Field:</strong> {assessment.research_field || 'Unknown'}
           </p>
           {!assessmentResults.assessment && (
             <div style={{ 
@@ -157,7 +157,7 @@ const ResearchAssessment = ({
               fontSize: '14px',
               color: '#856404'
             }}>
-              ⚡ <strong>Quick Analysis:</strong> This is a fast analysis focusing only on critical missing content. For a complete assessment with all details, use "Comprehensive Assessment".
+              ⚡ <strong style={{ color: '#495057' }}>Quick Analysis:</strong> This is a fast analysis focusing only on critical missing content. For a complete assessment with all details, use "Comprehensive Assessment".
             </div>
           )}
           <div style={{ 
@@ -267,7 +267,7 @@ const ResearchAssessment = ({
                 fontSize: '14px',
                 color: '#721c24'
               }}>
-                ⚠️ <strong>Quick Analysis Results:</strong> Showing only critical issues that need immediate attention. 
+                ⚠️ <strong style={{ color: '#495057' }}>Quick Analysis Results:</strong> Showing only critical issues that need immediate attention. 
                 {assessmentResults.total_critical_issues > 0 
                   ? ` Found ${assessmentResults.total_critical_issues} critical issue${assessmentResults.total_critical_issues > 1 ? 's' : ''}.`
                   : ' No critical issues found.'
@@ -299,7 +299,7 @@ const ResearchAssessment = ({
                       </span>
                       <span style={{
                         marginLeft: '10px',
-                        color: '#6c757d',
+                        color: '#212529',
                         fontSize: '14px'
                       }}>
                         {item.category}
@@ -307,7 +307,7 @@ const ResearchAssessment = ({
                     </div>
                   </div>
                   <p style={{ margin: '10px 0', color: '#212529' }}>
-                    <strong>Description:</strong> {item.description}
+                    <strong style={{ color: '#495057' }}>Description:</strong> {item.description}
                   </p>
                   <div style={{
                     backgroundColor: '#e9ecef',
@@ -319,8 +319,8 @@ const ResearchAssessment = ({
                     <strong style={{ color: '#212529' }}>💡 Suggestion:</strong> <span style={{ color: '#212529' }}>{item.suggestion}</span>
                   </div>
                   {item.related_sections && item.related_sections.length > 0 && (
-                    <div style={{ marginTop: '10px', fontSize: '14px', color: '#6c757d' }}>
-                      <strong>Related sections:</strong> {item.related_sections.join(', ')}
+                    <div style={{ marginTop: '10px', fontSize: '14px', color: '#212529' }}>
+                      <strong style={{ color: '#495057' }}>Related sections:</strong> {item.related_sections.join(', ')}
                     </div>
                   )}
                 </div>
