@@ -99,16 +99,12 @@ def read_current_user(current_user: Annotated[User, Depends(get_current_user)]):
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-MAX_BCRYPT_LENGTH = 72  # bcrypt limit
+MAX_BCRYPT_LENGTH = 72
 
 def get_password_hash(password: str) -> str:
-    """
-    Hash a password using bcrypt, truncating to 72 bytes.
-    """
-    return pwd_context.hash(password[:MAX_BCRYPT_LENGTH])
+    truncated = password.encode('utf-8')[:MAX_BCRYPT_LENGTH]  # explicitly encode to bytes
+    return pwd_context.hash(truncated)
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """
-    Verify a password against a hash, truncating to 72 bytes.
-    """
-    return pwd_context.verify(plain_password[:MAX_BCRYPT_LENGTH], hashed_password)
+    truncated = plain_password.encode('utf-8')[:MAX_BCRYPT_LENGTH]
+    return pwd_context.verify(truncated, hashed_password)
